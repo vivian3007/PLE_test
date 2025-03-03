@@ -1,20 +1,15 @@
 import React from "react";
-import { useState, useRef, useEffect } from "react";
+import { useState, useEffect } from "react";
 
 interface PatternProps {
     shape: string | null;
+    shapeSize: {height: number; width: number};
 }
 
-const Pattern: React.FC<PatternProps> = ({ shape, shapeRef }) => {
-    const [shapeHeight, setShapeHeight] = useState<number | null>(null);
-    const [shapeWidth, setShapeWidth] = useState<number | null>(null);
+const Pattern: React.FC<PatternProps> = ({ shape, shapeSize }) => {
 
-    useEffect(() => {
-        if (shapeRef.current) {
-            setShapeHeight(shapeRef.current.clientHeight);
-            setShapeWidth(shapeRef.current.clientWidth);
-        }
-    }, [shape]);
+    const shapeHeight = shapeSize.height;
+    const shapeWidth = shapeSize.width;
 
     const rows = shapeHeight ? shapeHeight / 10 : 0;
     const extraScRows =
@@ -45,27 +40,36 @@ const Pattern: React.FC<PatternProps> = ({ shape, shapeRef }) => {
     }
 
     return (
-        <div>
-            <h1>Pattern Page</h1>
-            <p>Selected Shape: {shape ?? null}</p>
-            {shape ? (
-                <ul>
-                    <li>Row 1: 6sc in a magic ring</li>
-                    <li>Row 2: 6inc</li>
-                    {incArray.map((row, index) => (
-                        <li key={index}>{row}</li>
-                    ))}
-                    {scArray.map((row, index) => (
-                        <li key={index}>{row}</li>
-                    ))}
-                    {decArray.map((row, index) => (
-                        <li key={index}>{row}</li>
-                    ))}
-                    <li>Row {rows}: 6dec</li>
-                </ul>
-            ) : null}
+        <div className={"pattern-container"}>
+            <div className={"pattern-text-container"}>
+                <h1>Pattern</h1>
+                <p>Selected Shape: {shape ?? null}</p>
+                {shape ? (
+                    <ul>
+                        <li>Row 1: 6sc in a magic ring</li>
+                        <li>Row 2: 6inc</li>
+                        {incArray.map((row, index) => (
+                            <li key={index}>{row}</li>
+                        ))}
+                        {scArray.map((row, index) => (
+                            <li key={index}>{row}</li>
+                        ))}
+                        {decArray.map((row, index) => (
+                            <li key={index}>{row}</li>
+                        ))}
+                        <li>Row {rows}: 6dec</li>
+                    </ul>
+                ) : null}
+
+            </div>
+            <div className="shape-container">
+                {shape && (
+                    <div className={`shape ${shape}`}></div>
+                )}{" "}
+            </div>
         </div>
-    );
+)
+    ;
 };
 
 export default Pattern;

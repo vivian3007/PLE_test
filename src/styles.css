@@ -54,3 +54,7 @@
 .shapeContainer {
     display: flex;
 }
+
+.pattern-container {
+    display: flex;
+}
