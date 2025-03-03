@@ -7,13 +7,19 @@ interface PatternProps {
 
 const Pattern: React.FC<PatternProps> = ({ shape, shapeRef }) => {
     const [shapeHeight, setShapeHeight] = useState<number | null>(null);
+    const [shapeWidth, setShapeWidth] = useState<number | null>(null);
+
     useEffect(() => {
         if (shapeRef.current) {
             setShapeHeight(shapeRef.current.clientHeight);
+            setShapeWidth(shapeRef.current.clientWidth);
         }
     }, [shape]);
+
     const rows = shapeHeight ? shapeHeight / 10 : 0;
-    const incRows = Math.floor(rows / 3);
+    const extraScRows =
+        shapeHeight && shapeWidth ? (shapeHeight - shapeWidth) / 10 : 0;
+    const incRows = Math.floor((rows - extraScRows) / 3);
     const decRows = incRows - 1;
     const scRows = rows - incRows - decRows;
 
@@ -41,19 +47,23 @@ const Pattern: React.FC<PatternProps> = ({ shape, shapeRef }) => {
     return (
         <div>
             <h1>Pattern Page</h1>
-            <p>Selected Shape: {shape}</p>
-            <li>Row 1: 6sc in a magic ring</li>
-            <li>Row 2: 6inc</li>
-            {incArray.map((row, index) => (
-                <li key={index}>{row}</li>
-            ))}
-            {scArray.map((row, index) => (
-                <li key={index}>{row}</li>
-            ))}
-            {decArray.map((row, index) => (
-                <li key={index}>{row}</li>
-            ))}
-            <li>Row {rows}: 6dec</li>
+            <p>Selected Shape: {shape ?? null}</p>
+            {shape ? (
+                <ul>
+                    <li>Row 1: 6sc in a magic ring</li>
+                    <li>Row 2: 6inc</li>
+                    {incArray.map((row, index) => (
+                        <li key={index}>{row}</li>
+                    ))}
+                    {scArray.map((row, index) => (
+                        <li key={index}>{row}</li>
+                    ))}
+                    {decArray.map((row, index) => (
+                        <li key={index}>{row}</li>
+                    ))}
+                    <li>Row {rows}: 6dec</li>
+                </ul>
+            ) : null}
         </div>
     );
 };

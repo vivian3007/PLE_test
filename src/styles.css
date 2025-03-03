@@ -32,14 +32,15 @@
 
 .shape.rectangle {
     width: 120px;
-    height: 200px;
+    height: 180px;
     background-color: green;
+    border-radius: 50%;
 }
 
 .shape.oval {
     width: 180px;
     height: 180px;
-    background-color: green;
+    background-color: yellow;
     border-radius: 50%;
 }
 
